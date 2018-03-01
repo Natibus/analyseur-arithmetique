@@ -13,7 +13,7 @@ void Automate::lecture() {
     pileEtats.push(etat);
     bool fini = false;
     int iterations = 1;
-    while (!fini) {
+    while (!fini && iterations <= 20) {
         s = lex.Consulter();
         cout << "Symbole rencontré : ";
         s->Affiche();
@@ -24,6 +24,7 @@ void Automate::lecture() {
         cout << "_______________________________" << endl;
         iterations++;
     }
+    cout << "Valeur de l'expression : " << pileSymboles.top()->GetVal() << endl;
 
 }
 
@@ -38,25 +39,35 @@ void Automate::decalage(Symbole *s, Etat *e, bool avance) {
 
 void Automate::reduction(int n, Symbole *s) {
     cout << "reduction de la regle " << n << endl;
+    int a,b;
     switch (n) {
         case 2:
-            depilerEtatsEtSymboles(3);
-            pileSymboles.push(new Symbole(EXPR));
+            a = pileSymboles.top()->GetVal();
+            depilerEtatsEtSymboles(2);
+            b = pileSymboles.top()->GetVal();
+            depilerEtatsEtSymboles(1);
+            pileSymboles.push(new Expr(a+b));
             transitionPostReduction(s);
             break;
         case 3:
-            depilerEtatsEtSymboles(3);
-            pileSymboles.push(new Symbole(EXPR));
+            a = pileSymboles.top()->GetVal();
+            depilerEtatsEtSymboles(2);
+            b = pileSymboles.top()->GetVal();
+            depilerEtatsEtSymboles(1);
+            pileSymboles.push(new Expr(a*b));
             transitionPostReduction(s);
             break;
         case 4:
-            depilerEtatsEtSymboles(3);
-            pileSymboles.push(new Symbole(EXPR));
+            depilerEtatsEtSymboles(1);
+            a = pileSymboles.top()->GetVal();
+            depilerEtatsEtSymboles(2);
+            pileSymboles.push(new Expr(a));
             transitionPostReduction(s);
             break;
         case 5:
+            Symbole *E = pileSymboles.top();
             depilerEtatsEtSymboles(1);
-            pileSymboles.push(new Symbole(EXPR));
+            pileSymboles.push(new Expr(E->GetVal()));
             transitionPostReduction(s);
             break;
     }

@@ -140,7 +140,7 @@ bool E8::transition(Automate &automate, Symbole *s) {
         case MULT:
             automate.reduction(3, s);
             break;
-        case OPENPAR:
+        case CLOSEPAR:
             automate.reduction(3, s);
             break;
         case FIN:

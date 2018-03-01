@@ -4,8 +4,7 @@
 using namespace std;
 
 int main() {
-    string chaine("(1+2)*10");
-
+    string chaine("1+(2*10)+9");
     Automate a(chaine);
     a.lecture();
     stack<Symbole *> pile;
